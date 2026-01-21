@@ -38,8 +38,14 @@ jobs:
         if: inputs.section_one == true
         run: |
           pytest tests/ui/test_s1.py
-          
+        continue-on-error: true
+
       - name: Run pytest section 2
         if: inputs.section_two == true
         run: |
-          pytest tests/ui/test_s2.py 
+          pytest tests/ui/test_s2.py
+        continue-on-error: true
+
+      - name: Check any failures
+        if: failure()
+        run: exit 1
