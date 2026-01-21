@@ -63,8 +63,14 @@ jobs:
         run: |
           for var in section_one_failed section_two_failed section_three_failed; do
             if [[ "${!var}" == "true" ]]; then
-              echo "Some tests failed! Failing job."
-              exit 1
+              section_name="${var%FAILED}"
+              FAILED_SECTIONS="$FAILED_SECTIONS $section_name"
             fi
           done
-          echo "All tests passe"
+          
+          if [[ -n "$FAILED_SECTIONS" ]]; then
+              echo "FAILED TESTS: $FAILED_SECTIONS"
+              exit 1
+          else
+            echo "All tests passed"
+          fi
