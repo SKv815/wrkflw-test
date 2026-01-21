@@ -7,10 +7,12 @@ on:
   workflow_dispatch:
     inputs:
       section_one:
+        type: boolean
         description: "Runs tests for S1"
         default: true
 
       section_two:
+        type: boolean
         description: "Runs tests for S2"
         default: true
 

@@ -7,7 +7,7 @@ class TestS2:
         print("setup S2")
 
     def test_s2_t1(self):
-        actual = 3
+        actual = 9
         expected = 3
         assert actual == expected
 
