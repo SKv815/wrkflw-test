@@ -16,6 +16,11 @@ on:
         description: "Runs tests for S2"
         default: true
 
+      section_three:
+        type: boolean
+        description: "Runs tests for S3"
+        default: true
+
 jobs:
   runt-tests:
     runs-on: ubuntu-latest
@@ -46,6 +51,12 @@ jobs:
         if: inputs.section_two == true
         run: |
           pytest tests/ui/test_s2.py
+        continue-on-error: true
+
+      - name: Run pytest section 3
+        if: inputs.section_three == true
+        run: |
+          pytest tests/ui/test_s3.py
         continue-on-error: true
 
       - name: Check any failures
