@@ -1,0 +1,14 @@
+[tool.pytest]
+minversion = '9.0'
+addopts = [
+    '--clean-alluredir',
+    '--junit-xml=./reports/xml-reports/pytest_xml_report.xml',
+    '--cache-clear',
+]
+testpaths = ['tests/ui']
+
+python_files = ['test_*.py']
+
+python_classes = ['Test*']
+
+python_functions = ['test_*']
