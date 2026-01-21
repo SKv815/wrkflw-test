@@ -1,0 +1,45 @@
+name: Manual Pytest Workflow
+permissions:
+  contents: read
+  actions: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      section_one:
+        description: "Runs tests for S1"
+        default: true
+
+      section_two:
+        description: "Runs tests for S2"
+        default: true
+
+jobs:
+  runt-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
+
+      - name: Run pytest section 1
+        if: inputs.section_one
+        run: |
+          pytest tests/ui/test_s1.py
+          
+      - name: Run pytest section 2
+        if: inputs.section_two
+        run: |
+          pytest tests/ui/test_s2.py 
