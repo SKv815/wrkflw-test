@@ -44,21 +44,28 @@ jobs:
       - name: Run pytest section 1
         if: inputs.section_one == true
         run: |
-          pytest tests/ui/test_s1.py
+          pytest tests/ui/test_s1.py || echo "section_one_failed=true" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Run pytest section 2
         if: inputs.section_two == true
         run: |
-          pytest tests/ui/test_s2.py
+          pytest tests/ui/test_s2.py || echo "section_two_failed=true" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Run pytest section 3
         if: inputs.section_three == true
         run: |
-          pytest tests/ui/test_s3.py
+          pytest tests/ui/test_s3.py || echo "section_three_failed=true" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Check any failures
         if: failure()
-        run: exit 1
+        run: |
+          for var in section_one_failed section_two_failed section_three_failed; do
+            if [[ "${!var}" == "true" ]]; then
+              echo "Some tests failed! Failing job."
+              exit 1
+            fi
+          done
+          echo "All tests passe"
