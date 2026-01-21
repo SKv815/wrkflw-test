@@ -60,7 +60,6 @@ jobs:
         continue-on-error: true
 
       - name: Check any failures
-        if: failure()
         run: |
           for var in section_one_failed section_two_failed section_three_failed; do
             if [[ "${!var}" == "true" ]]; then
